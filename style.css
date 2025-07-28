@@ -1,0 +1,498 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  caret-color: transparent !important; /* Hide caret globally */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+}
+
+/* Allow caret only in VIN input */
+#vin-input {
+  caret-color: auto !important;
+}
+
+/* Remove body padding on top */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0e1311;
+  color: #e5e8e6;
+  min-height: 100vh;
+  padding: 0 0 1.5rem 0; /* Removed horizontal padding to prevent overflow */
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* prevent horizontal scroll */
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* prevent horizontal scroll globally */
+}
+
+/* Navigation */
+nav {
+  background-color: #0a0d0b;
+  width: 100%; /* full width but not 100vw */
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  padding: 0.75rem 0; /* vertical padding only */
+  overflow-x: hidden; /* prevent horizontal overflow */
+}
+
+/* Inner container to center nav content and limit width */
+nav > .nav-container {
+  max-width: 900px; /* max width to constrain nav content */
+  margin: 0 auto; /* center horizontally */
+  display: flex;
+  justify-content: space-between; /* logo left, controls right */
+  align-items: center;
+  padding: 0 1.5rem; /* horizontal padding */
+}
+
+/* Prevent horizontal scroll on images and nav-controls */
+nav img {
+  height: 42px;
+  display: block;
+}
+
+.nav-controls {
+  display: flex;
+  align-items: center;
+}
+
+/* Theme Switch */
+/* From Uiverse.io by MRez321 */
+.theme-switch {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  direction: rtl;
+}
+
+#theme-checkbox {
+  display: none;
+}
+
+#theme-checkbox + label {
+  font-size: 2rem;
+  height: 1em;
+  width: 2.5em;
+  border-radius: 0.25em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  background-color: #cecece;
+  position: relative;
+  transition: background-color 0.5s ease;
+}
+
+#theme-checkbox:checked + label {
+  background-color: #3a3a3a;
+}
+
+#theme-checkbox + label:active {
+  transform: scale(0.85);
+  transition: transform 0.2s;
+}
+
+#theme-checkbox + label div {
+  width: 0.8em;
+  height: 0.8em;
+  border-radius: inherit;
+  position: absolute;
+  top: 0.1em;
+  left: 0.1em;
+  z-index: 10;
+  transition: 0.5s cubic-bezier(1, 0.33, 0.11, 1.34);
+  background-color: #f2f2f2;
+}
+
+#theme-checkbox:checked + label div {
+  left: 1.6em;
+  background-color: #212121;
+}
+
+#theme-checkbox + label span {
+  display: flex;
+}
+
+#theme-checkbox + label svg {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  padding: 0.15em;
+  box-sizing: border-box;
+}
+
+#theme-checkbox + label span:first-of-type {
+  color: #3a3a3a;
+}
+
+#theme-checkbox + label span:last-of-type {
+  color: #cecece;
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Landing Text */
+.landing-text {
+  text-align: center;
+  padding: 2rem 1rem;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  box-sizing: border-box;
+}
+
+.landing-text h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #d8fada;
+}
+
+.landing-text p {
+  font-size: 1rem;
+  color: #9abf9e;
+}
+
+/* VIN Section */
+.vin-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0 1.5rem;
+}
+
+#vin-form {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+}
+
+/* VIN input box with scanner */
+.vin-box {
+  display: flex;
+  background: #1a2c22;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 255, 100, 0.05);
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+}
+
+#vin-input {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #d2f1cb;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#vin-input::placeholder {
+  color: #88aa94;
+}
+
+.scanner-icon {
+  width: 24px;  /* adjust size */
+  height: 24px;
+  object-fit: contain;
+}
+
+.scanner-btn {
+  background: #2c473a;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #aef1b0;
+  transition: background 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.scanner-btn:hover {
+  background: #3a614d;
+}
+
+/* Check VIN button from Voxybuns, green theme */
+button.check-btn {
+  /* Variables */
+  --button_radius: 0.75em;
+  --button_color: #009e37; /* lighter green background */
+  --button_outline_color: #166534; /* dark green outline */
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0; /* no padding on button itself */
+  -webkit-tap-highlight-color: transparent; /* remove mobile blue tap highlight */
+  position: relative;
+  overflow: visible;
+}
+
+/* The top layer inside the button */
+button.check-btn .button_top {
+  color: #d8fada; /* white text color */
+  border-color: var(--button_outline_color); /* keep border color unchanged */
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  /* remove this next line, or change color if you want */
+  /* color: var(--button_outline_color); */
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+  user-select: none;
+}
+
+
+/* Hover effect: pull the top layer upwards */
+button.check-btn:hover .button_top {
+  transform: translateY(-0.33em);
+}
+
+/* Active/click effect: push the top layer down */
+button.check-btn:active .button_top {
+  transform: translateY(0);
+}
+
+/* Result */
+#result {
+  display: none; /* hide initially */
+  margin-top: 1.5rem;
+  background: #1d2f25;
+  padding: 1.25rem;
+  border-radius: 10px;
+  color: #c5f2d5;
+  font-size: 0.95rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: inset 0 0 10px #203c28;
+  box-sizing: border-box;
+}
+
+/* Remove autofill background color and styles */
+input#vin-input:-webkit-autofill,
+input#vin-input:-webkit-autofill:hover,
+input#vin-input:-webkit-autofill:focus,
+input#vin-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #1a2c22 inset !important; /* match vin-box bg */
+  -webkit-text-fill-color: #d2f1cb !important; /* match input text color */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.card:first-of-type {
+  margin-top: 60px; /* increase as needed */
+}
+
+
+.card {
+  font-family: Montserrat, sans-serif;
+  width: 320px;
+  margin: 20px auto;
+  background: #067400;
+  border: 3px solid #000000;
+  box-shadow: 12px 12px 0 #000000;
+  transition: all 0.3s ease;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+.head {
+  font-size: 14px;
+  font-weight: 900;
+  background: #e4ffe4;
+  padding: 6px 12px;
+  color: #000000;
+  border-bottom: 3px solid #000000;
+}
+
+.content {
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.content p,
+.content li {
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+details {
+  margin-top: 6px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+#vin-main-card {
+  margin-top: 80px;
+  padding: 16px;
+}
+
+.vin-inner-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.mini-card {
+  width: 160px;
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  padding: 10px;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+}
+
+.mini-card img {
+  width: 100%;
+  border: 1px solid #000;
+  margin-bottom: 8px;
+}
+
+#vin-main-card {
+  margin-top: 80px;
+  padding-top: 24px;
+  position: relative;
+}
+
+#vin-main-card .head {
+  position: absolute;
+  top: -20px;
+  left: 12px;
+  background: #ffffff;
+  padding: 6px 12px;
+  border: 2px solid #000;
+  font-size: 14px;
+  font-weight: 900;
+  z-index: 2;
+}
+
+.vin-inner-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.vin-subcard {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  width: 100%;          /* increased width */
+  padding: 16px;         /* increased padding for better spacing */
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  box-sizing: border-box; /* make sure padding is included in width */
+  color: #000;
+}
+
+.vin-subcard img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #000;
+  margin-bottom: 8px;
+  object-fit: cover;     /* ensures image covers the box nicely */
+  border-radius: 4px;    /* optional: subtle rounding */
+}
+
+/* Initial state: invisible and moved down */
+.card,
+.vin-subcard {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* When visible (class added by JS), fade in and slide up */
+.card.visible,
+.vin-subcard.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  font-size: 0.85rem;
+  color: #7a8b75;
+  box-sizing: border-box;
+}
+
+/* Larger Screens */
+@media (min-width: 600px) {
+  body {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  nav img {
+    height: 50px;
+  }
+
+  .landing-text h1 {
+    font-size: 2.5rem;
+  }
+
+  .landing-text p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .vin-subcard {
+    width: 250px;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .vin-subcard {
+    width: 100%;  /* full width on small screens */
+  }
+}
