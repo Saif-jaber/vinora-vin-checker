@@ -26,9 +26,10 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+      <div id="overlay"></div>
   <nav>
     <div class="nav-container">
-      <img src="assets/logo-removebg-preview.png" alt="Logo" />
+      <img src="assets/logo dark.png" alt="Logo" id="logo-img"/>
       <div class="nav-controls">
         <div class="theme-switch">
           <input type="checkbox" id="theme-checkbox" />
@@ -77,7 +78,16 @@
     <section class="vin-section">
       <form id="vin-form">
         <div class="vin-box">
-          <input id="vin-input" type="text" placeholder="Enter VIN number" maxlength="17" />
+          <input
+            id="vin-input"
+            type="text"
+            placeholder="Enter VIN number"
+            maxlength="17"
+            minlength="17"
+            required
+            oninvalid="this.setCustomValidity('Please enter a valid 17-character VIN')"
+            oninput="this.setCustomValidity('')"
+          />
           <button type="button" class="scanner-btn" title="Scan with Camera">
             <img src="assets/scan-svgrepo-com.svg" alt="Scan Icon" class="scanner-icon" />
           </button>
@@ -86,7 +96,6 @@
           <span class="button_top">Check VIN</span>
         </button>
       </form>
-      <div id="result"></div>
     </section>
 
     <!-- How It Works Card -->
@@ -103,7 +112,7 @@
       <div class="content vin-inner-cards">
         <!-- Inner Card 1 -->
         <div class="vin-subcard">
-          <img src="assets/VIN 1.jpg" alt="Dashboard VIN location">
+          <img src="assets/vin 1.png" alt="Dashboard VIN location">
           <p>Dashboard (driver side)</p>
         </div>
     
@@ -145,7 +154,10 @@
       </div>
     </div>
     
-
+    <div id="result">
+      <div id="report-container"></div>
+    </div>
+    
 
   </main>
 

@@ -7,6 +7,25 @@
   -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
 }
 
+body,
+.container,
+.card,
+input,
+button,
+nav,
+#result,
+.theme-toggle,
+.vin-subcard {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+#logo-img {
+  transition: opacity 0.3s ease;
+}
+
 /* Allow caret only in VIN input */
 #vin-input {
   caret-color: auto !important;
@@ -275,7 +294,6 @@ button.check-btn .button_top {
   user-select: none;
 }
 
-
 /* Hover effect: pull the top layer upwards */
 button.check-btn:hover .button_top {
   transform: translateY(-0.33em);
@@ -299,6 +317,11 @@ button.check-btn:active .button_top {
   max-width: 500px;
   box-shadow: inset 0 0 10px #203c28;
   box-sizing: border-box;
+  bottom: -100%; /* hidden */
+  margin: 0;        /* no margin */
+  padding-bottom: 0; /* no bottom padding */
+  opacity: 1; /* keep visible, no fading */
+  transition: bottom 0.4s ease-in-out; /* remove opacity transition */
 }
 
 /* Remove autofill background color and styles */
@@ -314,7 +337,6 @@ input#vin-input:-webkit-autofill:active {
 .card:first-of-type {
   margin-top: 60px; /* increase as needed */
 }
-
 
 .card {
   font-family: Montserrat, sans-serif;
@@ -452,8 +474,8 @@ summary {
 .vin-subcard.visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: opacity, transform; /* performance hint */
 }
-
 
 /* Footer */
 footer {
@@ -463,6 +485,452 @@ footer {
   color: #7a8b75;
   box-sizing: border-box;
 }
+
+/* Bottom sheet fixed at bottom with no gap */
+#result {
+  position: fixed;
+  bottom: 0;              /* flush with bottom */
+  left: 0;
+  width: 100%;
+  max-width: 600px;       /* optional max width */
+  margin: 0 auto;
+  background-color: var(--card-color, #1d2f25);
+  color: var(--text-color, #c5f2d5);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
+  padding: 1rem 2rem;
+  max-height: 65vh;
+  overflow-y: auto;
+  transition: bottom 0.4s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+  z-index: 10000;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  /* Remove any bottom margin/padding that may cause gap */
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Show the bottom sheet */
+#result.show {
+  opacity: 1;
+  bottom: 0;
+  display: flex;
+}
+
+/* Report container: fill the vertical space above the button */
+#report-container {
+  flex: 1;                 /* grow to fill available space */
+  overflow-y: auto;
+  padding: 20px;              /* remove extra padding if needed */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Reuse Check Button styles for Close Button */
+#report-container > button#close-button {
+  /* Use the same variables and styles as .check-btn */
+  --button_radius: 0.75em;
+  --button_color: #009e37; /* lighter green background */
+  --button_outline_color: #166534; /* dark green outline */
+  
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--button_radius);
+  background: var(--button_outline_color);
+  max-width: 300px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 1rem auto 0 auto; /* top margin to separate from content, center horizontally */
+  padding: 0; /* no padding on button itself */
+  position: relative;
+  overflow: visible;
+  color: #d8fada;
+  transition: background-color 0.3s ease;
+  display: block;
+}
+
+/* Inner top layer for close button */
+#report-container > button#close-button .button_top {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--button_outline_color);
+  border-radius: var(--button_radius);
+  padding: 0.75em 1.5em;
+  background: var(--button_color);
+  color: var(--button_outline_color);
+  transform: translateY(-0.2em);
+  transition: transform 0.1s ease;
+  user-select: none;
+  color: #ffffff !important;
+}
+
+/* Hover effect: pull the top layer upwards */
+#report-container > button#close-button:hover .button_top {
+  transform: translateY(-0.33em);
+  background: #007628;
+  color: #fff;
+}
+
+/* Active/click effect: push the top layer down */
+#report-container > button#close-button:active .button_top {
+  transform: translateY(0);
+}
+
+/* Loader - Uiverse.io by mobinkakei */ 
+#wifi-loader {
+  --background: #62abff;
+  --front-color: #4f29f0;
+  --back-color: #c3c8de;
+  --text-color: #414856;
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wifi-loader svg {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#wifi-loader svg circle {
+  position: absolute;
+  fill: none;
+  stroke-width: 6px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform: rotate(-100deg);
+  transform-origin: center;
+}
+
+#wifi-loader svg circle.back {
+  stroke: var(--back-color);
+}
+
+#wifi-loader svg circle.front {
+  stroke: var(--front-color);
+}
+
+#wifi-loader svg.circle-outer {
+  height: 86px;
+  width: 86px;
+}
+
+#wifi-loader svg.circle-outer circle {
+  stroke-width: 3px;
+}
+
+/* Error Message */
+#error {
+  color: #d73925;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Overlay (modal backdrop) */
+#overlay {
+  position: fixed;
+  inset: 0; /* shorthand for top:0; right:0; bottom:0; left:0; */
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Responsive tweaks */
+@media (max-width: 400px) {
+  .vin-subcard {
+    width: 100% !important;
+  }
+
+  #vin-input {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Keyboard focus outlines for accessibility */
+button.check-btn:focus-visible,
+#report-container > button#close-button:focus-visible {
+  outline: 2px solid #009e37;
+  outline-offset: 2px;
+}
+
+/* Optional: Custom Scrollbars for #result and #report-container */
+#result::-webkit-scrollbar,
+#report-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#result::-webkit-scrollbar-thumb,
+#report-container::-webkit-scrollbar-thumb {
+  background-color: #4caf50;
+  border-radius: 4px;
+}
+
+#result::-webkit-scrollbar-track,
+#report-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* === Custom Loader (Uiverse.io by R5Program) === */
+.loader {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  height: auto;         /* no fixed height */
+  width: 100%;
+  position: static;     /* changed from absolute */
+  margin-bottom: 20px;  /* space below loader */
+  pointer-events: none; /* keep pointer-events none if needed */
+}
+
+/* Individual squares */
+.loader-square {
+  width: 22px;
+  height: 22px;
+  background-color: rgb(0, 255, 106);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(47, 255, 0, 0.8);
+  animation: scaleBounce 1.2s infinite ease-in-out;
+  position: relative;
+}
+
+/* Splash effect */
+.loader-square::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 255, 157, 0.5);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1);
+  animation: splash 1.2s infinite ease-in-out;
+}
+
+/* Animations for each square */
+.loader-square:nth-child(1) {
+  animation-delay: -0.4s;
+}
+.loader-square:nth-child(2) {
+  animation-delay: -0.2s;
+}
+.loader-square:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes scaleBounce {
+  0%, 80%, 100% {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes splash {
+  0% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+#result {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 200;
+}
+
+#result.show {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+#result.hide {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+#overlay {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
+#overlay.show {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+/* Light Theme - soft backgrounds and darker text */
+body.light-theme {
+  background-color: #e9f3ec; /* very light green-white */
+  color: #1d3727; /* dark greenish text */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-theme nav {
+  background-color: #f0f7f2;
+}
+
+body.light-theme nav img {
+  filter: none; /* no dark mode filter */
+}
+
+body.light-theme .landing-text {
+  color: #2a4d2a;
+}
+
+body.light-theme .landing-text h1 {
+  color: #15442c; /* darker green for heading */
+}
+
+body.light-theme .landing-text p {
+  color: #3e5f4a; /* deeper paragraph green */
+}
+
+body.light-theme .vin-box {
+  background-color: #d3e9db;
+  box-shadow: 0 0 6px rgba(0, 80, 0, 0.08);
+}
+
+body.light-theme #vin-input {
+  background: transparent;
+  color: #1a3828;
+}
+
+body.light-theme #vin-input::placeholder {
+  color: #557a67;
+}
+
+body.light-theme .scanner-btn {
+  background-color: #85bfa1; /* lighter green */
+  color: #103824;
+}
+
+body.light-theme .scanner-btn:hover {
+  background-color: #76b08f;
+}
+
+body.light-theme button.check-btn {
+  --button_color: #6ab184;  /* strong green */
+  --button_outline_color: #1e6b3f;
+  background: var(--button_outline_color);
+  color: #ffffff;
+}
+
+body.light-theme button.check-btn .button_top {
+  background: var(--button_color);
+  color: #ffffff;
+}
+
+body.light-theme #result {
+  background: #d2e9d8;
+  color: #1c3425;
+  box-shadow: inset 0 0 6px #a2c9b1;
+}
+
+body.light-theme .card {
+  background: #f4fbf6;
+  border-color: #429765;  /* darker green border */
+  box-shadow: 10px 10px 0 #429765;
+}
+
+body.light-theme .head {
+  background: #c0e1cc;
+  color: #193826;
+  border-bottom-color: #429765;
+}
+
+body.light-theme .vin-subcard {
+  background: #eef9f1;
+  color: #264736;
+  border-color: #429765;
+}
+
+body.light-theme footer {
+  color: #3b5947;
+}
+
+/* Overlay light theme adjustment (optional) */
+body.light-theme #overlay {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(3px);
+}
+
+/* Close Button in Light Theme */
+body.light-theme #close-button.check-btn {
+  background-color: #1e6b3f;
+  color: #d2f1cb;
+}
+body.light-theme #close-button.check-btn:hover {
+  background-color: #145124;
+}
+
+.loader-container {
+  height: 180px; /* or whatever fits your design */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #888;
+  font-weight: 500;
+  font-size: 1rem;
+  gap: 16px; /* space between loader and text */
+}
+
+/* Add margin bottom to loader squares */
+#custom-loader {
+  margin-bottom: 0; /* no margin needed here now */
+}
+
 
 /* Larger Screens */
 @media (min-width: 600px) {
